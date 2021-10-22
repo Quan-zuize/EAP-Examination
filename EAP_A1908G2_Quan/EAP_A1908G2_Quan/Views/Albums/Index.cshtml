@@ -1,0 +1,97 @@
+﻿@model PagedList.IPagedList<EAP_A1908G2_Quan.Models.Album>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    table tr td {
+        border: 2px solid black;
+        text-align: center;
+        word-wrap: break-word;
+    }
+
+    table tr:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    table tr th {
+        border: 2px solid black;
+        text-align: center;
+        background-color: #fff;
+        color: #000;
+    }
+</style>
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "Albums", FormMethod.Get))
+{
+
+    <b> Search Option: </b>
+    @Html.TextBox("search")
+    <input type="submit" name="submit" value="Submit" />
+
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>     
+                @*@Html.DisplayNameFor(model => model.Genre.GenreName)*@
+                GenreName
+            </th>
+            <th>
+                @Html.ActionLink("Title", "Index", new { SortOrder = "Title" })
+                @*@Html.DisplayNameFor(model => model.Title)*@
+            </th>
+            <th>
+                @Html.ActionLink("ReleaseDate", "Index", new { SortOrder = "ReleaseDate" })
+                @*@Html.DisplayNameFor(model => model.ReleaseDate)*@
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Artist)*@
+                Artist
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Price)*@
+                Price
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre.GenreName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.AlbumId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.AlbumId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AlbumId })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div id='Paging' style="text-align:center">
+        Page: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount @Html.PagedListPager(Model, Page_No
+=> Url.Action("Index", new { Page_No }))
+    </div>
+}
